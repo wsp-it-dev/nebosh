@@ -18,3 +18,7 @@ exports.testDB = async () => {
     logger.error(`db connection error: ${e.message}`);
   }
 };
+
+exports.generate4DigitCode = () => {
+  return Math.floor(1000 + Math.random() * 9000);
+};

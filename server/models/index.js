@@ -70,6 +70,7 @@ const CertValidationRequest = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    // new Date() from frontend JS
     requestTime: {
       type: DataTypes.STRING,
       allowNull: false,

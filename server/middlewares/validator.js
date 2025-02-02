@@ -28,9 +28,22 @@ const studentValidator = [
   body("dob").notEmpty().withMessage("dob is required"),
 ];
 
+const verificationReqBody = [
+  body("email").notEmpty().isEmail().withMessage("email is required"),
+  body("name").notEmpty().withMessage("name is required"),
+  body("organization").notEmpty().withMessage("organization is required"),
+  body("requestTime").notEmpty().withMessage("requestTime is required"),
+];
+
+const confirmVerificationValidator = [
+  body("authCode").notEmpty().withMessage("authCode is required"),
+];
+
 module.exports = {
   certificateValidator,
   adminLoginValidator,
   studentValidator,
+  verificationReqBody,
+  confirmVerificationValidator,
   validateBody,
 };
