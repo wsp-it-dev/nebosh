@@ -2,6 +2,7 @@ const sequelize = require("../config/db");
 const { Certificate, Student, CertValidationRequest } = require("../models");
 const Admin = require("../models/admin.model");
 const logger = require("./logger");
+const crypto = require("crypto");
 
 exports.testDB = async () => {
   try {
@@ -21,4 +22,8 @@ exports.testDB = async () => {
 
 exports.generate4DigitCode = () => {
   return Math.floor(1000 + Math.random() * 9000);
+};
+
+exports.generateRandomString = (length) => {
+  return crypto.randomBytes(length).toString("hex").slice(0, length);
 };

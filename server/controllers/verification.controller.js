@@ -1,9 +1,14 @@
+const moment = require("moment");
 const { validationRequestStatus } = require("../lib/constants");
 const { asyncHandler } = require("../middlewares");
 const { CertValidationRequest, Certificate, Student } = require("../models");
-const { visitorRequestedEmail } = require("../utils/emailHtmlGenerator");
-const { generate4DigitCode } = require("../utils/helper");
+const {
+  visitorRequestedEmail,
+  studentVerificationEmail,
+} = require("../utils/emailHtmlGenerator");
+const { generate4DigitCode, generateRandomString } = require("../utils/helper");
 const sendEmail = require("../utils/sendEmail");
+const { v4 } = require("uuid");
 
 exports.getAllVerifications = asyncHandler(async (req, res) => {
   const requests = await CertValidationRequest.findAll({
@@ -32,14 +37,30 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
   // create new record in DB
   const request = CertValidationRequest.build({
     ...req.body,
+    ident: v4(),
   });
 
   // generate new code
-  request.authCode = generate4DigitCode();
+  request.authCode = generateRandomString(8);
   await request.save();
 
   // send email to student
-  // sendEmail({ to: certificate.Student.email });
+  const studentEmailHtml = studentVerificationEmail(
+    request.name,
+    request.organization,
+    certificate.Student.name,
+    certificate.name,
+    certificate.number,
+    request.authCode,
+    `${process.env.FRONTEND_URL_CONFIRM_REQUEST}?ident=${certificate.ident}`,
+    moment(request.createdAt).add(2, "days").format("DD/MM/YYYY"),
+    moment(request.createdAt).format("hh:mm A")
+  );
+  sendEmail({
+    to: certificate.Student.email,
+    subject: "NEBOSH has received a request to verify your NEBOSH certificate",
+    html: studentEmailHtml,
+  });
   // send email to visitor
   sendEmail({
     to: req.body.email,

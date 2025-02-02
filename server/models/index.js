@@ -90,6 +90,12 @@ const CertValidationRequest = sequelize.define(
       defaultValue: validationRequestStatus.pending,
       allowNull: false,
     },
+    ident: {
+      type: DataTypes.STRING,
+      unique: true,
+      defaultValue: v4(),
+      allowNull: false,
+    },
   },
   {
     tableName: "cert_validation_requests",

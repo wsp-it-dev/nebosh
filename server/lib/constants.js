@@ -6,6 +6,7 @@ const ADMIN_ROLES = {
 const validationRequestStatus = {
   pending: "pending",
   completed: "completed",
+  rejected: "rejected",
 };
 
 module.exports = {

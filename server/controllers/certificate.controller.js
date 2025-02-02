@@ -13,6 +13,7 @@ exports.newCertificate = asyncHandler(async (req, res) => {
     name: req.body.name,
     issueDate: req.body.issueDate,
     number: req.body.number,
+    ident: v4(),
   });
   certificate.StudentId = req.body.StudentId;
   await certificate.save();
