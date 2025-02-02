@@ -33,6 +33,12 @@ const Certificate = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    // certificate number
+    number: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
     // yyyy-mm-dd
     issueDate: {
       type: DataTypes.STRING,

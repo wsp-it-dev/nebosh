@@ -4,6 +4,8 @@ const {
   getAllCertificates,
   newCertificate,
   getCertificate,
+  getCertificateWithNumber,
+  getCertificateWithIdent,
 } = require("../controllers/certificate.controller");
 const {
   certificateValidator,
@@ -15,6 +17,17 @@ router
   .route("/")
   .get(adminRequired, getAllCertificates)
   .post(adminRequired, certificateValidator, validateBody, newCertificate);
+
+/**
+ * @Get get certificate using certificate.number,
+ * request.query = {number}
+ */
+router.get("/certificate-with-number", getCertificateWithNumber);
+
+/**
+ * @Get get certificate using certificate.ident
+ */
+router.get("/certificate-with-ident/:ident", getCertificateWithIdent);
 
 router.route("/:id").get(getCertificate);
 

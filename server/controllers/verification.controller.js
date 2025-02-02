@@ -1,6 +1,7 @@
 const { validationRequestStatus } = require("../lib/constants");
 const { asyncHandler } = require("../middlewares");
 const { CertValidationRequest, Certificate, Student } = require("../models");
+const { visitorRequestedEmail } = require("../utils/emailHtmlGenerator");
 const { generate4DigitCode } = require("../utils/helper");
 const sendEmail = require("../utils/sendEmail");
 
@@ -40,7 +41,11 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
   // send email to student
   // sendEmail({ to: certificate.Student.email });
   // send email to visitor
-  // sendEmail({ to: req.body.email });
+  sendEmail({
+    to: req.body.email,
+    subject: "Your verification request has been received",
+    html: visitorRequestedEmail(request.name, certificate.number),
+  });
   res.status(200).json({ message: "verification request processed" });
 });
 

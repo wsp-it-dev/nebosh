@@ -2,7 +2,8 @@ const nodemailer = require("nodemailer");
 const logger = require("./logger");
 
 const transporter = nodemailer.createTransport({
-  host: "neboshuk-validation-verisecure.org",
+  // host: "neboshuk-validation-verisecure.org",
+  host: "nequal.co.uk",
   port: 465,
   secure: true,
   auth: {

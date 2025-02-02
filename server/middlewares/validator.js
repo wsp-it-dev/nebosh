@@ -12,6 +12,7 @@ const validateBody = (req, res, next) => {
 
 const certificateValidator = [
   body("name").notEmpty().withMessage("name is required"),
+  body("number").notEmpty().withMessage("number is required"),
   body("issueDate").notEmpty().withMessage("issueDate is required"),
   body("StudentId").notEmpty().withMessage("StudentId is required"),
 ];

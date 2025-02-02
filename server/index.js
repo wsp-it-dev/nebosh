@@ -3,11 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const { errorHandler } = require("./middlewares");
 const { testDB } = require("./utils/helper");
+const path = require("path");
 
 const app = express();
 
 testDB();
 // middlewares
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
