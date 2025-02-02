@@ -1,4 +1,5 @@
 const infoEmail = "info@neboshuk-validation-verisecure.org";
+const logoUrl = "https://ktcpk.com/assets/ktcpk.png";
 
 exports.visitorRequestedEmail = (visitorName, certificateNumber) => {
   return `
@@ -50,7 +51,7 @@ exports.visitorRequestedEmail = (visitorName, certificateNumber) => {
   <body>
     <div class="container">
       <div class="logo">
-        <img src="https://ktcpk.com/assets/ktcpk.png" alt="NEBOSHUK" />
+        <img src="${logoUrl}" alt="NEBOSHUK" />
       </div>
       <h3>Nebosh Certificate Verification System</h3>
       <p>Dear ${visitorName},</p>
@@ -174,7 +175,7 @@ exports.studentVerificationEmail = (
   <body>
     <div class="container">
       <div class="logo">
-        <img src="https://ktcpk.com/assets/ktcpk.png" alt="NEBOSHUK" />
+        <img src="${logoUrl}" alt="NEBOSHUK" />
       </div>
       <h3>Nebosh Certificate Verification System</h3>
       <p>Dear ${studentName},</p>

@@ -42,6 +42,7 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
 
   // generate new code
   request.authCode = generateRandomString(8);
+  request.CertificateId = certificate.id;
   await request.save();
 
   // send email to student
@@ -52,7 +53,9 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
     certificate.name,
     certificate.number,
     request.authCode,
-    `${process.env.FRONTEND_URL_CONFIRM_REQUEST}?ident=${certificate.ident}`,
+    `${process.env.FRONTEND_URL_CONFIRM_REQUEST}?ident=${
+      certificate.ident
+    }&hash=${generateRandomString(16)}`,
     moment(request.createdAt).add(2, "days").format("DD/MM/YYYY"),
     moment(request.createdAt).format("hh:mm A")
   );

@@ -25,5 +25,9 @@ exports.generate4DigitCode = () => {
 };
 
 exports.generateRandomString = (length) => {
-  return crypto.randomBytes(length).toString("hex").slice(0, length);
+  return crypto
+    .randomBytes(length)
+    .toString("hex")
+    .slice(0, length)
+    .toUpperCase();
 };
