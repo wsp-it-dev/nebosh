@@ -22,6 +22,8 @@ app.get("/api/ping", (req, res) => {
 });
 app.use("/api/admin", require("./routes/admin.router"));
 app.use("/api/students", require("./routes/student.router"));
+app.use("/api/certificates", require("./routes/certificate.router"));
+app.use("/api/verifications", require("./routes/verifications.router"));
 app.all("*", (req, res) => {
   res.status(404).json({
     success: false,

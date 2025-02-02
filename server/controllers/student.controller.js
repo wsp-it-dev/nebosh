@@ -1,5 +1,5 @@
 const { asyncHandler } = require("../middlewares");
-const { Student } = require("../models");
+const { Student, Certificate } = require("../models");
 
 exports.getAllStudents = asyncHandler(async (req, res) => {
   const students = await Student.findAll({ order: [["createdAt", "DESC"]] });
@@ -19,5 +19,14 @@ exports.getStudent = asyncHandler(async (req, res) => {
   if (!student) {
     return res.status(404).json({ message: "not found" });
   }
-  res.status(200).json({ student });
+  // find all certificates
+  const certificates = await Certificate.findAll({
+    where: { StudentId: student.id },
+  });
+  res.status(200).json({
+    student: {
+      ...student.toJSON(),
+      certificates,
+    },
+  });
 });

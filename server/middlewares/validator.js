@@ -12,10 +12,8 @@ const validateBody = (req, res, next) => {
 
 const certificateValidator = [
   body("name").notEmpty().withMessage("name is required"),
-  body("number").notEmpty().withMessage("number is required"),
-  body("course").notEmpty().withMessage("course is required"),
-  body("dob").notEmpty().withMessage("dob is required"),
   body("issueDate").notEmpty().withMessage("issueDate is required"),
+  body("StudentId").notEmpty().withMessage("StudentId is required"),
 ];
 
 // used for admin and student login
