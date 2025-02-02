@@ -20,6 +20,8 @@ app.use(
 app.get("/api/ping", (req, res) => {
   res.json({ success: true, message: "Server is working🔥" });
 });
+app.use("/api/admin", require("./routes/admin.router"));
+app.use("/api/students", require("./routes/student.router"));
 app.all("*", (req, res) => {
   res.status(404).json({
     success: false,

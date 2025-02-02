@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const logger = require("../utils/logger");
+const Admin = require("../models/admin.model");
 
 exports.adminRequired = async (req, res, next) => {
   const auth = req.headers["authorization"];
@@ -41,6 +42,7 @@ exports.errorHandler = (err, req, res, next) => {
   logger.error(`500 error ${JSON.stringify(err)}`);
   res.json({
     success: false,
+    message: "internal server error",
   });
 };
 
@@ -49,7 +51,7 @@ exports.errorHandler = (err, req, res, next) => {
  * @param {async function} fn
  * @returns
  */
-exports.asyncHandler = (req, res, next) => {
+exports.asyncHandler = (fn) => {
   return (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch((err) => next(err));
   };

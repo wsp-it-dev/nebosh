@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-exports.validateBody = (req, res, next) => {
+const validateBody = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res
@@ -20,11 +20,19 @@ const certificateValidator = [
 
 // used for admin and student login
 const adminLoginValidator = [
-  body("username").notEmpty().withMessage("username is required"),
+  body("email").notEmpty().isEmail().withMessage("email is required"),
   body("password").notEmpty().withMessage("password is required"),
+];
+
+const studentValidator = [
+  body("email").notEmpty().isEmail().withMessage("email is required"),
+  body("name").notEmpty().withMessage("name is required"),
+  body("dob").notEmpty().withMessage("dob is required"),
 ];
 
 module.exports = {
   certificateValidator,
   adminLoginValidator,
+  studentValidator,
+  validateBody,
 };
