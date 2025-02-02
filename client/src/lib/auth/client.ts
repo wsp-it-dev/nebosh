@@ -1,5 +1,8 @@
 'use client';
 
+import apiService from '@/services/api.service';
+import Cookies from 'js-cookie';
+
 import type { User } from '@/types/user';
 
 function generateToken(): string {
@@ -7,14 +10,6 @@ function generateToken(): string {
   window.crypto.getRandomValues(arr);
   return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
 }
-
-const user = {
-  id: 'USR-000',
-  avatar: '/assets/avatar.png',
-  firstName: 'Sofia',
-  lastName: 'Rivers',
-  email: 'sofia@devias.io',
-} satisfies User;
 
 export interface SignUpParams {
   firstName: string;
@@ -52,19 +47,23 @@ class AuthClient {
   }
 
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
-    const { email, password } = params;
+    try {
+      const { email, password } = params;
 
-    // Make API request
+      // Make API request
+      const { data } = await apiService.post('/api/admin/login', { email, password });
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@devias.io' || password !== 'Secret1') {
+      // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
+      if (!data?.token) {
+        return { error: 'Invalid credentials' };
+      }
+
+      Cookies.set('token', data.token, { expires: 7 });
+      Cookies.set('user', JSON.stringify(data.user), { expires: 7 });
+      return {};
+    } catch (e) {
       return { error: 'Invalid credentials' };
     }
-
-    const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
-    return {};
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -79,17 +78,20 @@ class AuthClient {
     // Make API request
 
     // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem('custom-auth-token');
+    const token = Cookies.get('token');
 
     if (!token) {
       return { data: null };
     }
 
+    const user = JSON.parse(Cookies.get('user') as string) as User;
+
     return { data: user };
   }
 
   async signOut(): Promise<{ error?: string }> {
-    localStorage.removeItem('custom-auth-token');
+    Cookies.remove('user');
+    Cookies.remove('token');
 
     return {};
   }
