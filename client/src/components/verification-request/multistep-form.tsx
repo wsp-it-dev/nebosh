@@ -39,14 +39,6 @@ export default function MultiStepForm() {
   const { nextDisabled, activeStep } = useSelector((state: RootState) => state.verification);
   const dispatch = useDispatch();
 
-  const handleNext = () => {
-    dispatch(setActiveStep(activeStep + 1));
-  };
-
-  const handleBack = () => {
-    dispatch(setActiveStep(activeStep - 1));
-  };
-
   const handleReset = () => {
     dispatch(setActiveStep(0));
   };
@@ -76,14 +68,6 @@ export default function MultiStepForm() {
       ) : (
         <Container maxWidth="sm">
           <Box my={8}>{steps[activeStep].component}</Box>
-          <Stack direction="row" justifyContent={'space-between'}>
-            <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
-            <Button onClick={handleNext} disabled={nextDisabled}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Stack>
         </Container>
       )}
     </Box>

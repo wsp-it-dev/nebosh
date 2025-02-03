@@ -7,6 +7,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { z } from 'zod';
 
+import Footer from './footer';
+
 const schema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   organization: z.string().min(1, { message: 'Organisation is required' }),
@@ -39,65 +41,68 @@ function YourDetails() {
   }, []);
 
   return (
-    <Stack alignItems="center" gap={2}>
-      <Typography variant="body1" fontWeight={'bold'} pb={4}>
-        Your Details
-      </Typography>
+    <>
+      <Stack alignItems="center" gap={2}>
+        <Typography variant="body1" fontWeight={'bold'} pb={4}>
+          Your Details
+        </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="name"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Your Name*"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
-          )}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Your Name*"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.name}
+                helperText={errors.name?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="organization"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Your Organisation*"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              error={!!errors.organization}
-              helperText={errors.organization?.message}
-            />
-          )}
-        />
+          <Controller
+            name="organization"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Your Organisation*"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.organization}
+                helperText={errors.organization?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="email"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Your Email*"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
-        />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Your Email*"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.email}
+                helperText={errors.email?.message}
+              />
+            )}
+          />
 
-        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
-          Next
-        </Button>
-      </form>
-    </Stack>
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+            Next
+          </Button>
+        </form>
+      </Stack>
+      <Footer label="" />
+    </>
   );
 }
 export default YourDetails;

@@ -9,6 +9,7 @@ import { store } from '@/store';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import { UserProvider } from '@/contexts/user-context';
 import { LocalizationProvider } from '@/components/core/localization-provider';
@@ -34,6 +35,18 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
               </UserProvider>
             </LocalizationProvider>
           </Provider>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>
