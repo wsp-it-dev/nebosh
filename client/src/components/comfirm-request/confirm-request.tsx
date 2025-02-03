@@ -14,7 +14,7 @@ import Verification from './verification';
 function ConfirmRequest() {
   const searchParams = useSearchParams();
   const ident = searchParams.get('ident');
-  const { isLoading, data, error, isSuccess } = useQuery(
+  const { isLoading, data, isSuccess } = useQuery(
     `verification-with-ident/${ident}`,
     async () => {
       try {

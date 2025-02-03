@@ -20,7 +20,7 @@ interface Resp {
 
 function FetchReqData() {
   const dispatch = useDispatch();
-  const params = useSearchParams<any>();
+  const params = useSearchParams();
 
   useQuery(
     `/certificate/${params.get('ident')}`,

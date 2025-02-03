@@ -1,5 +1,6 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { Box, Container } from '@mui/material';
+import { Box, CircularProgress, Container } from '@mui/material';
 
 import ConfirmRequest from '@/components/comfirm-request/confirm-request';
 
@@ -13,7 +14,9 @@ function Page() {
     <div>
       <Container sx={{ my: 8 }}>
         <Box component="img" src="/assets/nebosh.png" height={120} alt="NEBOSH" sx={{ mx: 'auto', display: 'block' }} />
-        <ConfirmRequest />
+        <Suspense fallback={<CircularProgress />}>
+          <ConfirmRequest />
+        </Suspense>
       </Container>
     </div>
   );
