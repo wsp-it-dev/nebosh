@@ -87,11 +87,11 @@ exports.confirmVerificationRequest = asyncHandler(async (req, res) => {
     ],
   });
   if (!vr) {
-    return res.status(404).json({ message: "invalid verification" });
+    return res.status(404).json({ message: "Not found or already verified" });
   }
   // check code validity
   if (req.body.authCode !== vr.authCode) {
-    return res.status(400).json({ message: "invalid authentication code" });
+    return res.status(400).json({ message: "Invalid authentication code" });
   }
 
   // send email to visitor
@@ -179,11 +179,11 @@ exports.rejectVerificationReq = asyncHandler(async (req, res) => {
     where: { id: req.params.id, status: validationRequestStatus.pending },
   });
   if (!verificationRequest) {
-    return res.status(404).json({ message: "not found" });
+    return res.status(404).json({ message: "Not found or already verified" });
   }
   // check code validity
   if (req.body.authCode !== verificationRequest.authCode) {
-    return res.status(400).json({ message: "invalid authentication code" });
+    return res.status(400).json({ message: "Invalid authentication code" });
   }
   verificationRequest.status = validationRequestStatus.rejected;
   await verificationRequest.save();

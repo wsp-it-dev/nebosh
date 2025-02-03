@@ -14,3 +14,22 @@ const apiService = axios.create({
 });
 
 export default apiService;
+
+export interface VerificationIdent {
+  certificate: {
+    name: string;
+    number: string;
+    issueDate: string;
+  };
+  student: {
+    name: string;
+  };
+  request: {
+    id: number;
+    ident: string;
+    name: string;
+    organization: string;
+    email: string;
+    timestamp: string;
+  };
+}

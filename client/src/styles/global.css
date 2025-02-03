@@ -31,3 +31,16 @@ html {
 body {
   height: 100%;
 }
+
+/* CUSTOM CSS */
+.confirm-request-table {
+  text-align: left;
+
+  tr {
+    min-height: 30px;
+  }
+
+  td {
+    padding-left: 30px;
+  }
+}
