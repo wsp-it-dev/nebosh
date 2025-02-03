@@ -497,11 +497,6 @@ exports.confirmedDetailsToStudent = (
       </p>
 
       <p>
-        If you authorised this request by mistake, please contact NEBOSH
-        immediately.
-      </p>
-
-      <p>
         We are writing to advise you, that confirmation that NEBOSH issued this
         certificate has now been sent to ${visitorName}, ${organization}.
       </p>
