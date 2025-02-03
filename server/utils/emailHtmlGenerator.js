@@ -1,6 +1,12 @@
 const infoEmail = "info@neboshuk-validation-verisecure.org";
 const logoUrl = "https://ktcpk.com/assets/ktcpk.png";
 
+/**
+ * sent to visitor, when 1st filled verification form
+ * @param {*} visitorName
+ * @param {*} certificateNumber
+ * @returns
+ */
 exports.visitorRequestedEmail = (visitorName, certificateNumber) => {
   return `
     <!DOCTYPE html>
@@ -109,6 +115,19 @@ exports.visitorRequestedEmail = (visitorName, certificateNumber) => {
     `;
 };
 
+/**
+ * sent to student/learner, when visitor 1st filled verification form
+ * @param {*} visitorName
+ * @param {*} visitorOrganisation
+ * @param {*} studentName
+ * @param {*} qualification
+ * @param {*} certNumber
+ * @param {*} authCode
+ * @param {*} verificationURL
+ * @param {*} expireDate
+ * @param {*} expireTime
+ * @returns
+ */
 exports.studentVerificationEmail = (
   visitorName,
   visitorOrganisation,
@@ -263,4 +282,244 @@ exports.studentVerificationEmail = (
 </html>
 
     `;
+};
+
+/**
+ * sent to visitor with all the information about certificate including DOB
+ * @param {*} visitorName
+ * @param {*} studentName
+ * @param {*} issueDate
+ * @param {*} qualification
+ * @param {*} certNumber
+ * @param {*} dob
+ * @returns
+ */
+exports.confirmedDetailsToVisitor = (
+  visitorName,
+  studentName,
+  issueDate,
+  qualification,
+  certNumber,
+  dob
+) => {
+  return `
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verification Request</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      p,
+      ul,
+      ol,
+      li {
+        line-height: 1.6;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .logo img {
+        max-width: 150px;
+      }
+
+      a {
+        color: rgb(19, 127, 227);
+        text-decoration: none;
+      }
+
+      li {
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <img src="${logoUrl}" alt="NEBOSHUK" />
+      </div>
+      <h3>Nebosh Certificate Verification System</h3>
+      <p>Dear ${visitorName},</p>
+      <p>
+        Thank you for your recent verification request for certificate master
+        log number ${certNumber}. We are pleased to advise you that NEBOSH has
+        received authorisation to process your request, and we can confirm that
+        NEBOSH issued this certificate to ${studentName} on ${issueDate}.
+      </p>
+
+      <p>
+        <b><u>Please note</u></b> although NEBOSH does take every step to
+        protect the security of these certificates we do recommend that you
+        complete some additional checks to make sure that the person that has
+        provided you with this certificate is genuine.
+      </p>
+
+      <ol>
+        <li>
+          Check all of the details below match what is printed on the
+          certificate. Master log number ${certNumber} Unit
+          certificate/qualification name: ${qualification}
+        </li>
+        <li>
+          As part of this verification, we have provided you with the date of
+          birth that we have on record for the certificate holder. This is
+          information that is not printed on the certificate. Please check this
+          against government issued ID to make sure the dates match. Date of
+          <br />
+          <br />
+          <b> Date of birth: </b> ${dob}
+          <br />
+          <br />
+        </li>
+        <li>Learner full name - <b>check against government issued ID.</b></li>
+        <li>
+          If the person requires a full qualification, please check that
+          qualification title is the one required. If the title shows "a unit
+          of" you have not verified that the learner has completed the whole
+          qualification. You will need to request a copy of qualification
+          Parchment.
+        </li>
+      </ol>
+
+      <p>
+        Do you have any further questions, please feel free to
+        <a href="mailto:${infoEmail}">contact NEBOSH.</a><br />
+        Best regards,<br /><br />
+        NEBOSH Team
+      </p>
+    </div>
+  </body>
+</html>
+
+  `;
+};
+
+/**
+ * send to student/learner that, all certificate details are sent to requester
+ * simple confirmation email
+ * @param {*} studentName
+ * @param {*} visitorName
+ * @param {*} organization
+ * @param {*} certNumber
+ * @returns
+ */
+exports.confirmedDetailsToStudent = (
+  studentName,
+  visitorName,
+  organization,
+  certNumber
+) => {
+  return `
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verification Request</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      p,
+      ul,
+      ol,
+      li {
+        line-height: 1.6;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .logo img {
+        max-width: 150px;
+      }
+
+      a {
+        color: rgb(19, 127, 227);
+        text-decoration: none;
+      }
+
+      li {
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <img src="${logoUrl}" alt="NEBOSHUK" />
+      </div>
+      <h3>Nebosh Certificate Verification System</h3>
+      <p>Dear ${studentName},</p>
+      <p>
+        Thank you for authorising the verification request received from
+        ${visitorName} for your certificate ${certNumber}.
+      </p>
+
+      <p>
+        If you authorised this request by mistake, please contact NEBOSH
+        immediately.
+      </p>
+
+      <p>
+        We are writing to advise you, that confirmation that NEBOSH issued this
+        certificate has now been sent to ${visitorName}, ${organization}.
+      </p>
+
+      <p>
+        If you authorised this request by mistake, please
+        <a href="mailto:${infoEmail}">contact NEBOSH.</a> immediately.
+      </p>
+
+      <p>
+        Do you have any further questions, please feel free to
+        <a href="mailto:${infoEmail}">contact NEBOSH.</a><br />
+        Best regards,<br /><br />
+        NEBOSH Team
+      </p>
+    </div>
+  </body>
+</html>
+
+  `;
 };

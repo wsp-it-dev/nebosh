@@ -53,6 +53,10 @@ exports.errorHandler = (err, req, res, next) => {
  */
 exports.asyncHandler = (fn) => {
   return (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+    Promise.resolve(fn(req, res, next)).catch((err) => {
+      console.log(err);
+      logger.error(`500 error ${err}`);
+      next(err);
+    });
   };
 };

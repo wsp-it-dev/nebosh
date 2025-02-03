@@ -10,6 +10,8 @@ const {
   getAllVerifications,
   getVerificationReq,
   confirmVerificationRequest,
+  getVerificationWithIdent,
+  rejectVerificationReq,
 } = require("../controllers/verification.controller");
 const router = express.Router();
 
@@ -22,18 +24,38 @@ router
   .get(adminRequired, getAllVerifications)
   .post(verificationReqBody, validateBody, newVerificationRequest);
 
-router.route("/:id").get(getVerificationReq);
+/**
+ * @GET return verification request all details
+ */
+router.route("/:id").get(adminRequired, getVerificationReq);
+
+/**
+ * @Get get certificate using certificate.ident
+ */
+router.get("/verification-with-ident/:ident", getVerificationWithIdent);
 
 /**
  * @POST confirm verification process by student
  * an email with DOB details will be send to visitor
- * authCode will be required
+ * authCode will be required in body req.body = {authCode}
  */
 router.post(
-  "/confirm-verification/:id",
+  "/:id/confirm-verification",
   confirmVerificationValidator,
   validateBody,
   confirmVerificationRequest
+);
+
+/**
+ * @POST reject verification process by student
+ * it will change the verification request status to rejected
+ * authCode will be required in body req.body = {authCode}
+ */
+router.post(
+  "/:id/reject-verification",
+  confirmVerificationValidator,
+  validateBody,
+  rejectVerificationReq
 );
 
 module.exports = router;

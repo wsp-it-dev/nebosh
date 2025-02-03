@@ -39,7 +39,7 @@ const Certificate = sequelize.define(
       unique: true,
       allowNull: false,
     },
-    // yyyy-mm-dd
+    // dd/mm/yyyy
     issueDate: {
       type: DataTypes.STRING,
       allowNull: false,
