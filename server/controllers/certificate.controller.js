@@ -1,5 +1,5 @@
 const { asyncHandler } = require("../middlewares");
-const { Certificate } = require("../models");
+const { Certificate, Student } = require("../models");
 
 exports.getAllCertificates = asyncHandler(async (req, res) => {
   const certificates = await Certificate.findAll({
@@ -23,6 +23,7 @@ exports.newCertificate = asyncHandler(async (req, res) => {
 exports.getCertificate = asyncHandler(async (req, res) => {
   const certificate = await Certificate.findOne({
     where: { id: req.params.id },
+    include: Student
   });
   if (!certificate) {
     return res.status(404).json({ message: "not found" });
@@ -33,6 +34,7 @@ exports.getCertificate = asyncHandler(async (req, res) => {
 exports.getCertificateWithNumber = asyncHandler(async (req, res) => {
   const certificate = await Certificate.findOne({
     where: { number: req.query.number },
+    include: Student
   });
   if (!certificate) {
     return res.status(404).json({ message: "not found" });
@@ -43,9 +45,16 @@ exports.getCertificateWithNumber = asyncHandler(async (req, res) => {
 exports.getCertificateWithIdent = asyncHandler(async (req, res) => {
   const certificate = await Certificate.findOne({
     where: { ident: req.params.ident },
+    include: Student
   });
   if (!certificate) {
     return res.status(404).json({ message: "not found" });
   }
-  res.status(200).json({ certificate });
+  res.status(200).json({ data: {
+    name: certificate.Student.name,
+    issueDate: certificate.issueDate,
+    id: certificate.id,
+    ident: certificate.ident,
+    number: certificate.number
+  } });
 });

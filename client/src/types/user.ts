@@ -7,3 +7,10 @@ export interface User {
 
   [key: string]: unknown;
 }
+
+export interface Student {
+  certId: number;
+  number: string;
+  name: string;
+  issueDate: string;
+}
