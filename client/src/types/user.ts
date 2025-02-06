@@ -14,3 +14,11 @@ export interface Student {
   name: string;
   issueDate: string;
 }
+
+export interface StudentData {
+  id: number;
+  name: string;
+  email: string;
+  dob: string;
+  createdAt: Date;
+}

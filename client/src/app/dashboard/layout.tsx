@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Metadata } from 'next';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import GlobalStyles from '@mui/material/GlobalStyles';
@@ -10,6 +11,10 @@ import { SideNav } from '@/components/dashboard/layout/side-nav';
 interface LayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  title: 'Nebosh Dashboard',
+};
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
