@@ -1,29 +1,34 @@
+'use client';
+
 import * as React from 'react';
-import type { Metadata } from 'next';
+import apiService from '@/services/api.service';
+import { CircularProgress } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
+import { useQuery } from 'react-query';
 
-import { config } from '@/config';
-import { AccountDetailsForm } from '@/components/dashboard/account/account-details-form';
-import { AccountInfo } from '@/components/dashboard/account/account-info';
-
-export const metadata = { title: `Account | Dashboard | ${config.site.name}` } satisfies Metadata;
+import { VerificationRequest } from '@/types/user';
+import ListVerifications from '@/components/dashboard/verifications/list-verifications';
 
 export default function Page(): React.JSX.Element {
+  const { data } = useQuery('verifications', async () => {
+    interface Resp {
+      data: {
+        requests: VerificationRequest[];
+      };
+    }
+    const res: Resp = await apiService.get('/api/verifications');
+    return res.data.requests;
+  });
+
   return (
     <Stack spacing={3}>
-      <div>
-        <Typography variant="h4">Account</Typography>
-      </div>
-      <Grid container spacing={3}>
-        <Grid lg={4} md={6} xs={12}>
-          <AccountInfo />
-        </Grid>
-        <Grid lg={8} md={6} xs={12}>
-          <AccountDetailsForm />
-        </Grid>
-      </Grid>
+      <Stack direction="row" spacing={3}>
+        <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
+          <Typography variant="h4">Verification Requests</Typography>
+        </Stack>
+      </Stack>
+      {data ? <ListVerifications data={data} /> : <CircularProgress />}
     </Stack>
   );
 }

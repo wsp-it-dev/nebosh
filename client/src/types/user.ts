@@ -33,3 +33,17 @@ export interface Certificate {
   StudentId: number;
   student: Student;
 }
+
+export interface VerificationRequest {
+  id: number;
+  name: string;
+  email: string;
+  organization: string;
+  requestTime: Date;
+  authCode: string;
+  status: string;
+  ident: string;
+  createdAt: string;
+  CertificateId: number;
+  Certificate: Certificate;
+}

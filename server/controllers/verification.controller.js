@@ -14,6 +14,7 @@ const { v4 } = require("uuid");
 
 exports.getAllVerifications = asyncHandler(async (req, res) => {
   const requests = await CertValidationRequest.findAll({
+    include: Certificate,
     order: [["createdAt", "DESC"]],
   });
   res.status(200).json({ requests });
