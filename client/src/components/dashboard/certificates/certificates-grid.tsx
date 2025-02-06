@@ -5,11 +5,12 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridTreeNodeWithRender } from '@mui/x-data-grid';
 import { FilePdf, Pencil, Trash } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 
 import { Certificate } from '@/types/user';
+import { printAndDownload } from '@/lib/certificate';
 
 interface Props {
   data: Certificate[];
@@ -66,7 +67,17 @@ function CertificatesGrid({ data }: Props) {
       width: 150,
       renderCell: (params) => (
         <Box>
-          <IconButton onClick={() => handleEdit(params.row.id)}>
+          <IconButton
+            onClick={() => {
+              printAndDownload({
+                certNo: params.row.number,
+                ident: params.row.ident,
+                courseName: params.row.name,
+                studentName: params.row.Student.name,
+                issueDate: params.row.issueDate,
+              });
+            }}
+          >
             <FilePdf size={16} />
           </IconButton>
           <IconButton onClick={() => handleEdit(params.row.id)}>

@@ -31,7 +31,7 @@ export interface Certificate {
   ident: string;
   createdAt: Date;
   StudentId: number;
-  student: Student;
+  Student: Student;
 }
 
 export interface VerificationRequest {

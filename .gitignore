@@ -6,6 +6,8 @@ client/.pnp
 # testing
 /client/coverage
 
+client/public/assets/certificate.pdf
+
 # next.js
 /client/.next/
 /client/out/

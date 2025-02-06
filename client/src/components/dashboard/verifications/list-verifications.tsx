@@ -1,13 +1,10 @@
 'use client';
 
-import * as React from 'react';
 import { Chip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { FilePdf, Pencil, Trash } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 
 import { VerificationRequest } from '@/types/user';
