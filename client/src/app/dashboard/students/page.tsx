@@ -3,13 +3,12 @@
 import * as React from 'react';
 import apiService from '@/services/api.service';
 import { CircularProgress } from '@mui/material';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { useQuery } from 'react-query';
 
 import { StudentData } from '@/types/user';
+import AddStudent from '@/components/dashboard/students/add-student';
 import StudentsGrid from '@/components/dashboard/students/students-grid';
 
 export default function Page(): React.JSX.Element {
@@ -38,9 +37,7 @@ export default function Page(): React.JSX.Element {
           </Stack> */}
         </Stack>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Add
-          </Button>
+          <AddStudent />
         </div>
       </Stack>
       {data ? <StudentsGrid data={data} /> : <CircularProgress />}

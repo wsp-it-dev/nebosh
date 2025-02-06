@@ -39,7 +39,7 @@ function StudentsGrid({ data }: Props) {
       field: 'createdAt',
       headerName: 'Created At',
       width: 180,
-      valueFormatter: (params) => dayjs(params.value).format('MMM D, YYYY'),
+      valueFormatter: (params) => dayjs(params).format('MMM D, YYYY'),
     },
   ];
 
