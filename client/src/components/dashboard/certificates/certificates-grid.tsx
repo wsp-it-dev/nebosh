@@ -6,16 +6,16 @@ import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Pencil, Trash } from '@phosphor-icons/react';
+import { FilePdf, Pencil, Trash } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 
-import { StudentData } from '@/types/user';
+import { Certificate } from '@/types/user';
 
 interface Props {
-  data: StudentData[];
+  data: Certificate[];
 }
 
-function StudentsGrid({ data }: Props) {
+function CertificatesGrid({ data }: Props) {
   const handleEdit = (id: string) => {
     console.log('Editing student with ID:', id);
     // Add your edit logic here
@@ -27,30 +27,36 @@ function StudentsGrid({ data }: Props) {
   };
 
   const columns: GridColDef[] = [
+    // {
+    //   field: 'id',
+    //   headerName: 'ID',
+    //   width: 80,
+    // },
     {
-      field: 'id',
-      headerName: 'ID',
-      width: 80,
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
+      field: 'number',
+      headerName: 'Certificate No',
       width: 200,
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      width: 250,
+      field: 'name',
+      headerName: 'Qualification',
+      width: 200,
     },
     {
-      field: 'dob',
-      headerName: 'Date of Birth',
-      width: 180,
+      field: 'student',
+      headerName: 'Student',
+      width: 200,
+      renderCell: (params) => params.row.Student.name,
+    },
+    {
+      field: 'issueDate',
+      headerName: 'Issue date',
+      width: 150,
     },
     {
       field: 'createdAt',
       headerName: 'Created At',
-      width: 180,
+      width: 150,
       valueFormatter: (params) => dayjs(params).format('MMM D, YYYY'),
     },
     {
@@ -60,6 +66,9 @@ function StudentsGrid({ data }: Props) {
       width: 150,
       renderCell: (params) => (
         <Box>
+          <IconButton onClick={() => handleEdit(params.row.id)}>
+            <FilePdf size={16} />
+          </IconButton>
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Pencil size={16} />
           </IconButton>
@@ -94,4 +103,4 @@ function StudentsGrid({ data }: Props) {
   );
 }
 
-export default StudentsGrid;
+export default CertificatesGrid;

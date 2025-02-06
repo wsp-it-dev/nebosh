@@ -4,6 +4,7 @@ const { Certificate, Student } = require("../models");
 
 exports.getAllCertificates = asyncHandler(async (req, res) => {
   const certificates = await Certificate.findAll({
+    include: Student,
     order: [["createdAt", "DESC"]],
   });
   res.status(200).json({ certificates });
