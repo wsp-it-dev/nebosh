@@ -3,8 +3,8 @@ import Cookies from 'js-cookie';
 
 const token = Cookies.get('token') || '';
 
-export const baseURL = 'http://localhost:5000';
-// export const baseURL = 'https://neboshuk.nequal.co.uk';
+// export const baseURL = 'http://localhost:5000';
+export const baseURL = 'https://neboshuk.nequal.co.uk';
 
 const apiService = axios.create({
   baseURL,

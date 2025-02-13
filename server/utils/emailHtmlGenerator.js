@@ -1,5 +1,5 @@
 const infoEmail = "info@neboshuk-validation-verisecure.org";
-const logoUrl = "https://ktcpk.com/assets/ktcpk.png";
+const logoUrl = "https://neboshuk-validation-verisecure.org/assets/nebosh.png";
 
 /**
  * sent to visitor, when 1st filled verification form
