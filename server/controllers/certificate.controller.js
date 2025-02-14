@@ -73,3 +73,12 @@ exports.getCertificateWithIdent = asyncHandler(async (req, res) => {
     },
   });
 });
+
+exports.deleteCert = asyncHandler(async (req, res) => {
+  const count = await Certificate.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json({ message: "deleted", count });
+});

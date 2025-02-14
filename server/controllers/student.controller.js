@@ -30,3 +30,26 @@ exports.getStudent = asyncHandler(async (req, res) => {
     },
   });
 });
+
+exports.deleteStudent = asyncHandler(async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    // delete all certificates
+    const certCount = await Certificate.destroy({
+      where: {
+        StudentId: req.params.id,
+      },
+    });
+    // delete student
+    const studentCount = await Student.destroy({
+      where: {
+        StudentId: req.params.id,
+      },
+    });
+    await t.commit();
+    res.status(200).json({ message: "deleted", certCount, studentCount });
+  } catch (e) {
+    await t.rollback();
+    res.status(500).json({ message: "something went wrong while deleting" });
+  }
+});

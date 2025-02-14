@@ -13,6 +13,6 @@ router
   .get(adminRequired, getAllStudents)
   .post(adminRequired, studentValidator, validateBody, newStudent);
 
-router.route("/:id").get(getStudent);
+router.route("/:id").get(getStudent).delete();
 
 module.exports = router;

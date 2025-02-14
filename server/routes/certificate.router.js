@@ -6,6 +6,7 @@ const {
   getCertificate,
   getCertificateWithNumber,
   getCertificateWithIdent,
+  deleteCert,
 } = require("../controllers/certificate.controller");
 const {
   certificateValidator,
@@ -29,6 +30,6 @@ router.get("/certificate-with-number", getCertificateWithNumber);
  */
 router.get("/certificate-with-ident/:ident", getCertificateWithIdent);
 
-router.route("/:id").get(getCertificate);
+router.route("/:id").get(getCertificate).delete(adminRequired, deleteCert);
 
 module.exports = router;
