@@ -1,3 +1,4 @@
+const sequelize = require("../config/db");
 const { asyncHandler } = require("../middlewares");
 const { Student, Certificate } = require("../models");
 
@@ -40,10 +41,9 @@ exports.deleteStudent = asyncHandler(async (req, res) => {
         StudentId: req.params.id,
       },
     });
-    // delete student
     const studentCount = await Student.destroy({
       where: {
-        StudentId: req.params.id,
+        id: req.params.id,
       },
     });
     await t.commit();

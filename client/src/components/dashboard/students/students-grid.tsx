@@ -11,6 +11,8 @@ import dayjs from 'dayjs';
 
 import { StudentData } from '@/types/user';
 
+import DeleteStudent from './delete-student';
+
 interface Props {
   data: StudentData[];
 }
@@ -63,9 +65,7 @@ function StudentsGrid({ data }: Props) {
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Pencil size={16} />
           </IconButton>
-          <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Trash size={16} />
-          </IconButton>
+          <DeleteStudent id={params.row.id} />
         </Box>
       ),
     },

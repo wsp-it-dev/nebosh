@@ -12,6 +12,8 @@ import dayjs from 'dayjs';
 import { Certificate } from '@/types/user';
 import { printAndDownload } from '@/lib/certificate';
 
+import DeleteCert from './delete-cert';
+
 interface Props {
   data: Certificate[];
 }
@@ -83,9 +85,7 @@ function CertificatesGrid({ data }: Props) {
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Pencil size={16} />
           </IconButton>
-          <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Trash size={16} />
-          </IconButton>
+          <DeleteCert id={params.row.id} />
         </Box>
       ),
     },

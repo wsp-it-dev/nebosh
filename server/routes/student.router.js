@@ -3,6 +3,7 @@ const {
   newStudent,
   getAllStudents,
   getStudent,
+  deleteStudent,
 } = require("../controllers/student.controller");
 const { adminRequired } = require("../middlewares");
 const { validateBody, studentValidator } = require("../middlewares/validator");
@@ -13,6 +14,6 @@ router
   .get(adminRequired, getAllStudents)
   .post(adminRequired, studentValidator, validateBody, newStudent);
 
-router.route("/:id").get(getStudent).delete();
+router.route("/:id").get(getStudent).delete(adminRequired, deleteStudent);
 
 module.exports = router;
