@@ -26,15 +26,17 @@ export async function printAndDownload(certificate: Data) {
     const [firstPage] = pdfDoc.getPages();
 
     // Embed Times New Roman font
-    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-    const color = rgb(0, 0, 0.5);
+    const standardFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const standardFontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const color = rgb(0, 0.1, 0.4);
+    // const color = (0, 0, 0.5);
 
     // Student Name
     firstPage.drawText(certificate.studentName, {
       x: 35,
       y: 445,
       size: 30,
-      font: timesRomanFont,
+      font: standardFontBold,
       color: color,
     });
 
@@ -45,7 +47,7 @@ export async function printAndDownload(certificate: Data) {
       x: 35,
       y: 360,
       size: 22,
-      font: timesRomanFont,
+      font: standardFont,
       color: color,
     });
 
@@ -54,7 +56,7 @@ export async function printAndDownload(certificate: Data) {
       x: 155,
       y: 135,
       size: 10,
-      font: timesRomanFont,
+      font: standardFont,
       color: color,
     });
 
