@@ -79,11 +79,13 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
     email: certificate.Student.email,
     subject: emailSubjects.toStdForReqInfo,
     html: studentEmailHtml,
+    CertValidationRequestId: request.id,
   });
   const visitorEmailRecord = await EmailRecord.create({
     email: req.body.email,
     subject: emailSubjects.reqReceivedVisitor,
     html: visitorEmailHtml,
+    CertValidationRequestId: request.id,
   });
 
   // send email to student
@@ -154,6 +156,7 @@ exports.confirmVerificationRequest = asyncHandler(async (req, res) => {
     email: vr.email,
     subject: emailSubjects.toVisitorApproved,
     html: visitorEmailHtml,
+    CertValidationRequestId: vr.id,
   });
   emailSuccess = await sendEmail({
     to: vr.email,
@@ -171,6 +174,7 @@ exports.confirmVerificationRequest = asyncHandler(async (req, res) => {
     email: vr.Certificate.Student.email,
     subject: emailSubjects.thanksStd,
     html: learnerEmailHtml,
+    CertValidationRequestId: vr.id,
   });
   emailSuccess = await sendEmail({
     to: vr.Certificate.Student.email,

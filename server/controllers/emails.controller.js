@@ -1,10 +1,27 @@
 const { asyncHandler } = require("../middlewares");
-const { EmailRecord } = require("../models");
+const { EmailRecord, CertValidationRequest } = require("../models");
 const sendEmail = require("../utils/sendEmail");
 
 exports.getAllEmails = asyncHandler(async (req, res) => {
-  const emails = await EmailRecord.findAll({ order: [["createdAt", "DESC"]] });
+  const emails = await EmailRecord.findAll({
+    attributes: {
+      exclude: "html",
+    },
+    order: [["createdAt", "DESC"]],
+  });
   res.status(200).json({ emails });
+});
+
+exports.getEmailRecord = asyncHandler(async (req, res) => {
+  const email = await EmailRecord.findOne({
+    where: { id: req.params.id },
+    order: [["createdAt", "DESC"]],
+    include: [CertValidationRequest],
+  });
+  if (!email) {
+    return res.status(404).json({ message: "email record not found" });
+  }
+  res.status(200).json({ email });
 });
 
 exports.retryEmail = asyncHandler(async (req, res) => {
