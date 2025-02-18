@@ -6,6 +6,7 @@ export const paths = {
     students: '/dashboard/students',
     certificates: '/dashboard/certificates',
     verifications: '/dashboard/verifications',
+    emailRecords: '/dashboard/email-records',
     settings: '/dashboard/settings',
   },
   errors: { notFound: '/errors/not-found' },

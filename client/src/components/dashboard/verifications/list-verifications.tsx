@@ -16,6 +16,11 @@ interface Props {
 function ListVerifications({ data }: Props) {
   const columns: GridColDef[] = [
     {
+      field: 'id',
+      headerName: 'ID',
+      width: 50,
+    },
+    {
       field: 'Certificate No',
       headerName: 'Certificate',
       width: 200,

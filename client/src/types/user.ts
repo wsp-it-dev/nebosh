@@ -47,3 +47,15 @@ export interface VerificationRequest {
   CertificateId: number;
   Certificate: Certificate;
 }
+
+export interface EmailRecord {
+  id: number;
+  subject: string;
+  email: string;
+  text: string;
+  html: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  CertValidationRequestId: number;
+}
