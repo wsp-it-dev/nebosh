@@ -13,6 +13,9 @@ const emailSubjects = {
   toStdForReqInfo:
     "NEBOSH has received a request to verify your NEBOSH certificate",
   reqReceivedVisitor: "Your verification request has been received",
+  toVisitorApproved:
+    "Your request to verify a NEBOSH certificate has been authorised",
+  thanksStd: "Thank you for authorising our verification request",
 };
 
 module.exports = {

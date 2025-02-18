@@ -131,8 +131,10 @@ exports.confirmVerificationRequest = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Invalid authentication code" });
   }
 
-  // send email to visitor
-  visitorEmailHtml = confirmedDetailsToVisitor(
+  let emailSuccess = false;
+
+  // render email's html
+  const visitorEmailHtml = confirmedDetailsToVisitor(
     vr.name,
     vr.Certificate.Student.name,
     vr.Certificate.issueDate,
@@ -140,24 +142,47 @@ exports.confirmVerificationRequest = asyncHandler(async (req, res) => {
     vr.Certificate.number,
     vr.Certificate.Student.dob
   );
-  sendEmail({
-    to: vr.email,
-    subject: "Your request to verify a NEBOSH certificate has been authorised",
-    html: visitorEmailHtml,
-  });
-  // send email to student
-  learnerEmailHtml = confirmedDetailsToStudent(
+  const learnerEmailHtml = confirmedDetailsToStudent(
     vr.Certificate.Student.name,
     vr.name,
     vr.organization,
     vr.Certificate.number
   );
-  sendEmail({
-    to: vr.Certificate.Student.email,
-    subject: "Thank you for authorising our verification request",
+
+  // create email record and send to visitor
+  const visitorEmailRecord = await EmailRecord.create({
+    email: vr.email,
+    subject: emailSubjects.toVisitorApproved,
+    html: visitorEmailHtml,
+  });
+  emailSuccess = await sendEmail({
+    to: vr.email,
+    subject: emailSubjects.toVisitorApproved,
+    html: visitorEmailHtml,
+  });
+  if (emailSuccess) {
+    visitorEmailHtml.status = "sent";
+    await visitorEmailRecord.save();
+  }
+  emailSuccess = false;
+
+  // create email record and send to visitor
+  const studentEmailRecord = await EmailRecord.create({
+    email: vr.Certificate.Student.email,
+    subject: emailSubjects.thanksStd,
     html: learnerEmailHtml,
   });
-  // change status and save to DB
+  emailSuccess = await sendEmail({
+    to: vr.Certificate.Student.email,
+    subject: emailSubjects.thanksStd,
+    html: learnerEmailHtml,
+  });
+  if (emailSuccess) {
+    // change status and save to DB
+    studentEmailRecord.status = "sent";
+    await studentEmailRecord.save();
+  }
+
   vr.status = validationRequestStatus.completed;
   await vr.save();
   res.status(200).json({ message: "verification email sent" });
