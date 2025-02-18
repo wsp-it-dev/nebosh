@@ -1,14 +1,19 @@
 const moment = require("moment");
-const { validationRequestStatus } = require("../lib/constants");
+const { validationRequestStatus, emailSubjects } = require("../lib/constants");
 const { asyncHandler } = require("../middlewares");
-const { CertValidationRequest, Certificate, Student } = require("../models");
+const {
+  CertValidationRequest,
+  Certificate,
+  Student,
+  EmailRecord,
+} = require("../models");
 const {
   visitorRequestedEmail,
   studentVerificationEmail,
   confirmedDetailsToVisitor,
   confirmedDetailsToStudent,
 } = require("../utils/emailHtmlGenerator");
-const { generate4DigitCode, generateRandomString } = require("../utils/helper");
+const { generateRandomString } = require("../utils/helper");
 const sendEmail = require("../utils/sendEmail");
 const { v4 } = require("uuid");
 
@@ -48,7 +53,9 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
   request.CertificateId = certificate.id;
   await request.save();
 
-  // send email to student
+  let emailSuccess = false;
+
+  // render email html
   const studentEmailHtml = studentVerificationEmail(
     request.name,
     request.organization,
@@ -62,17 +69,46 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
     moment(request.createdAt).add(2, "days").format("DD/MM/YYYY"),
     moment(request.createdAt).format("hh:mm A")
   );
-  sendEmail({
-    to: certificate.Student.email,
-    subject: "NEBOSH has received a request to verify your NEBOSH certificate",
+  const visitorEmailHtml = visitorRequestedEmail(
+    request.name,
+    certificate.number
+  );
+
+  // create new email records in database
+  const studentEmailRecord = await EmailRecord.create({
+    email: certificate.Student.email,
+    subject: emailSubjects.toStdForReqInfo,
     html: studentEmailHtml,
   });
-  // send email to visitor
-  sendEmail({
-    to: req.body.email,
-    subject: "Your verification request has been received",
-    html: visitorRequestedEmail(request.name, certificate.number),
+  const visitorEmailRecord = await EmailRecord.create({
+    email: req.body.email,
+    subject: emailSubjects.reqReceivedVisitor,
+    html: visitorEmailHtml,
   });
+
+  // send email to student
+  emailSuccess = await sendEmail({
+    to: certificate.Student.email,
+    subject: emailSubjects.toStdForReqInfo,
+    html: studentEmailHtml,
+  });
+  if (emailSuccess) {
+    studentEmailRecord.status = "sent";
+    await studentEmailRecord.save();
+  }
+  emailSuccess = false;
+
+  // send email to visitor
+  emailSuccess = await sendEmail({
+    to: req.body.email,
+    subject: emailSubjects.reqReceivedVisitor,
+    html: visitorEmailHtml,
+  });
+  if (emailSuccess) {
+    visitorEmailRecord.status = "sent";
+    await visitorEmailRecord.save();
+  }
+
   res.status(200).json({ message: "verification request processed" });
 });
 

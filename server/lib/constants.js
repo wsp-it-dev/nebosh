@@ -9,7 +9,14 @@ const validationRequestStatus = {
   rejected: "rejected",
 };
 
+const emailSubjects = {
+  toStdForReqInfo:
+    "NEBOSH has received a request to verify your NEBOSH certificate",
+  reqReceivedVisitor: "Your verification request has been received",
+};
+
 module.exports = {
   ADMIN_ROLES,
   validationRequestStatus,
+  emailSubjects,
 };
