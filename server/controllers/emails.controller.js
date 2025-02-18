@@ -46,7 +46,7 @@ exports.retryEmail = asyncHandler(async (req, res) => {
       .status(500)
       .json({ message: "failed to send email, try again later" });
   }
-  emailRecord.status = "success";
+  emailRecord.status = "sent";
   await emailRecord.save();
   res.status(200).json({ message: "email sent" });
 });
