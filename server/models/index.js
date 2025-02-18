@@ -103,6 +103,37 @@ const CertValidationRequest = sequelize.define(
   }
 );
 
+const EmailRecord = sequelize.define(
+  "EmailRecord",
+  {
+    subject: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    text: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    html: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    status: {
+      type: DataTypes.ENUM("pending", "sent", "failed"),
+      defaultValue: "pending",
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "email_records",
+    timestamps: true,
+  }
+);
+
 // Associations
 // student and certificate
 Student.hasMany(Certificate);
@@ -113,9 +144,13 @@ Certificate.hasMany(CertValidationRequest, {
   hooks: true,
 });
 CertValidationRequest.belongsTo(Certificate);
+// email record and request
+CertValidationRequest.hasMany(EmailRecord);
+EmailRecord.belongsTo(CertValidationRequest);
 
 module.exports = {
   Student,
   Certificate,
   CertValidationRequest,
+  EmailRecord,
 };

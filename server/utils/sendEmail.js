@@ -27,8 +27,10 @@ async function sendEmail(message) {
   try {
     const info = await transporter.sendMail(options);
     logger.info(`Message sent: %s", ${message.to}, ${info.messageId}`);
+    return true;
   } catch (e) {
     logger.error(`${message.to} mail sending error: ${e.message}`);
+    return false;
   }
 }
 
