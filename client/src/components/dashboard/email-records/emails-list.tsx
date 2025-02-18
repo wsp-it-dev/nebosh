@@ -1,20 +1,29 @@
 'use client';
 
-import { Chip } from '@mui/material';
+import apiService from '@/services/api.service';
+import { Chip, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import dayjs from 'dayjs';
 import moment from 'moment';
+import { useQuery } from 'react-query';
 
 import { EmailRecord } from '@/types/user';
 
-interface Props {
-  data: EmailRecord[];
-}
+import RetryEmail from './retry-email';
 
-function EmailsList({ data }: Props) {
+function EmailsList() {
+  const { data, isLoading } = useQuery('email-records', async () => {
+    interface Resp {
+      data: {
+        emails: EmailRecord[];
+      };
+    }
+    const res: Resp = await apiService.get('/api/email-records');
+    return res.data.emails;
+  });
+
   const columns: GridColDef[] = [
     {
       field: 'CertValidationRequestId',
@@ -51,13 +60,20 @@ function EmailsList({ data }: Props) {
         }
       },
     },
+    {
+      field: 'Actions',
+      headerName: 'Actions',
+      width: 100,
+      renderCell: (params) => <RetryEmail id={params.row.id} />,
+    },
   ];
 
   return (
     <Card>
       <Box sx={{ width: '100%' }}>
         <DataGrid
-          rows={data}
+          loading={isLoading}
+          rows={data || []}
           columns={columns}
           initialState={{
             pagination: {
