@@ -104,7 +104,7 @@ function CertificatesGrid({ data }: Props) {
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[10, 20, 50]}
           checkboxSelection
           disableRowSelectionOnClick
         />
