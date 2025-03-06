@@ -2,10 +2,7 @@ const nodemailer = require("nodemailer");
 const logger = require("./logger");
 
 const transporter = nodemailer.createTransport({
-  host: "neboshuk-validation-verisecure.org",
-  // host: "nequal.co.uk",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
     user: process.env.NO_REPLY_EMAIL,
     pass: process.env.NO_REPLY_EMAIL_PASSWORD,
