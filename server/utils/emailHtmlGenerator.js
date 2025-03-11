@@ -393,7 +393,7 @@ exports.confirmedDetailsToVisitor = (
           <br />
           <br />
         </li>
-        <li>Learner full name - <b>check against government issued ID.</b></li>
+        <li>Learner full name: ${studentName} - <b>check against government issued ID.</b></li>
         <li>
           If the person requires a full qualification, please check that
           qualification title is the one required. If the title shows "a unit
