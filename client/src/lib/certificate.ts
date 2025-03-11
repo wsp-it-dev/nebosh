@@ -60,8 +60,10 @@ export async function printAndDownload(certificate: Data) {
       color: color,
     });
 
+    // create redirectable link
+    const link = encodeURIComponent(`/verification-request/?ident=${certificate.ident}&type=scan-from-qr`);
     // Generate QR Code
-    const qrCodeValue = `${window.location.origin}/verification-request/?ident=${certificate.ident}&type=scan-from-qr`;
+    const qrCodeValue = `${process.env.NEXT_PUBLIC_REDIRECT_URL}/services/redirect?link=${link}`;
     const qrCodeImage = await QRCode.toDataURL(qrCodeValue);
     const qrCodeImageBytes = await fetch(qrCodeImage).then((res) => res.arrayBuffer());
 

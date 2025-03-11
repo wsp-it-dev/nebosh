@@ -55,6 +55,11 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
 
   let emailSuccess = false;
 
+  // generate query for redirect
+  const studentAuthLink = encodeURIComponent(
+    `/confirm-request?ident=${request.ident}&hash=${generateRandomString(16)}`
+  );
+
   // render email html
   const studentEmailHtml = studentVerificationEmail(
     request.name,
@@ -63,9 +68,7 @@ exports.newVerificationRequest = asyncHandler(async (req, res) => {
     certificate.name,
     certificate.number,
     request.authCode,
-    `${process.env.FRONTEND_URL_CONFIRM_REQUEST}?ident=${
-      request.ident
-    }&hash=${generateRandomString(16)}`,
+    `${process.env.REDIRECT_URL}/services/redirect?link=${studentAuthLink}`,
     moment(request.createdAt).add(2, "days").format("DD/MM/YYYY"),
     moment(request.createdAt).format("hh:mm A")
   );
