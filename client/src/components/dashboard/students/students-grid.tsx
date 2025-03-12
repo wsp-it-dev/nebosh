@@ -1,12 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Pencil, Trash } from '@phosphor-icons/react';
+import { Pencil } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 
 import { StudentData } from '@/types/user';
@@ -18,14 +19,10 @@ interface Props {
 }
 
 function StudentsGrid({ data }: Props) {
-  const handleEdit = (id: string) => {
-    console.log('Editing student with ID:', id);
-    // Add your edit logic here
-  };
+  const router = useRouter();
 
-  const handleDelete = (id: string) => {
-    console.log('Deleting student with ID:', id);
-    // Add your delete logic here
+  const handleEdit = (id: string) => {
+    router.push(`/dashboard/students/edit?id=${id}`);
   };
 
   const columns: GridColDef[] = [
