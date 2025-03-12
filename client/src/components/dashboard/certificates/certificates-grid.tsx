@@ -1,12 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { DataGrid, GridColDef, GridRenderCellParams, GridTreeNodeWithRender } from '@mui/x-data-grid';
-import { FilePdf, Pencil, Trash } from '@phosphor-icons/react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { FilePdf, Pencil } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 
 import { Certificate } from '@/types/user';
@@ -19,22 +20,13 @@ interface Props {
 }
 
 function CertificatesGrid({ data }: Props) {
-  const handleEdit = (id: string) => {
-    console.log('Editing student with ID:', id);
-    // Add your edit logic here
-  };
+  const router = useRouter();
 
-  const handleDelete = (id: string) => {
-    console.log('Deleting student with ID:', id);
-    // Add your delete logic here
+  const handleEdit = (id: string) => {
+    router.push(`/dashboard/certificates/edit?id=${id}`);
   };
 
   const columns: GridColDef[] = [
-    // {
-    //   field: 'id',
-    //   headerName: 'ID',
-    //   width: 80,
-    // },
     {
       field: 'number',
       headerName: 'Certificate No',
