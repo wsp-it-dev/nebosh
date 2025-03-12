@@ -1,3 +1,4 @@
+const { matchedData } = require("express-validator");
 const sequelize = require("../config/db");
 const { asyncHandler } = require("../middlewares");
 const { Student, Certificate } = require("../models");
@@ -52,4 +53,14 @@ exports.deleteStudent = asyncHandler(async (req, res) => {
     await t.rollback();
     res.status(500).json({ message: "something went wrong while deleting" });
   }
+});
+
+exports.updateStudent = asyncHandler(async (req, res) => {
+  const data = matchedData(req);
+  const count = await Student.update(data, {
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(201).json({ message: "student updated", count });
 });
