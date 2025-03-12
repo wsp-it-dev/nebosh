@@ -1,6 +1,7 @@
 const { v4 } = require("uuid");
 const { asyncHandler } = require("../middlewares");
 const { Certificate, Student } = require("../models");
+const { matchedData } = require("express-validator");
 
 exports.getAllCertificates = asyncHandler(async (req, res) => {
   const certificates = await Certificate.findAll({
@@ -81,4 +82,14 @@ exports.deleteCert = asyncHandler(async (req, res) => {
     },
   });
   res.status(200).json({ message: "deleted", count });
+});
+
+exports.updateCertificateById = asyncHandler(async (req, res) => {
+  const data = matchedData(req);
+  const count = await Certificate.update(data, {
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json({ message: "certificate updated", count });
 });

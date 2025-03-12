@@ -7,10 +7,12 @@ const {
   getCertificateWithNumber,
   getCertificateWithIdent,
   deleteCert,
+  updateCertificateById,
 } = require("../controllers/certificate.controller");
 const {
   certificateValidator,
   validateBody,
+  certificateUpdateValidator,
 } = require("../middlewares/validator");
 const router = express.Router();
 
@@ -30,6 +32,15 @@ router.get("/certificate-with-number", getCertificateWithNumber);
  */
 router.get("/certificate-with-ident/:ident", getCertificateWithIdent);
 
-router.route("/:id").get(getCertificate).delete(adminRequired, deleteCert);
+router
+  .route("/:id")
+  .get(getCertificate)
+  .put(
+    adminRequired,
+    certificateUpdateValidator,
+    validateBody,
+    updateCertificateById
+  )
+  .delete(adminRequired, deleteCert);
 
 module.exports = router;
