@@ -4,6 +4,8 @@ const cors = require("cors");
 const { errorHandler } = require("./middlewares");
 const { testDB } = require("./utils/helper");
 const path = require("path");
+const cron = require("node-cron");
+const { resendPendingEmailsJob } = require("./lib/jobs");
 
 const app = express();
 
@@ -42,3 +44,6 @@ app.use(errorHandler);
 app.listen(process.env.PORT, () => {
   console.log("server started at", process.env.PORT);
 });
+
+// run each 5 minutes
+cron.schedule("*/5 * * * *", resendPendingEmailsJob);
