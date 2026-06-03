@@ -27,6 +27,7 @@ async function sendEmail(message) {
     return true;
   } catch (e) {
     logger.error(`${message.to} mail sending error: ${e.message}`);
+    logger.error(String(e));
     return false;
   }
 }
