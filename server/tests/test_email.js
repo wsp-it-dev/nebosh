@@ -3,7 +3,7 @@ const sendEmail = require("../utils/sendEmail");
 
 async function testSendEmail() {
   const message = {
-    to: "bewah26525@alf5.com",
+    to: "fopemox805@matkind.com",
     subject: "Test Email",
     text: "This is a test email.",
     html: "<p>This is a test email.</p>",
