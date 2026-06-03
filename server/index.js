@@ -6,6 +6,7 @@ const { testDB } = require("./utils/helper");
 const path = require("path");
 const cron = require("node-cron");
 const { resendPendingEmailsJob } = require("./lib/jobs");
+const logger = require("./utils/logger");
 
 const app = express();
 
@@ -21,12 +22,42 @@ app.use(
       "https://neboshuk-validation-verisecure.org",
       "http://neboshuk-validation-verisecure.org",
     ],
-  })
+  }),
 );
 
 // routes
 app.get("/api/ping", (req, res) => {
   res.json({ success: true, message: "Server is working🔥" });
+});
+app.get("/api/test-email", async (req, res) => {
+  try {
+    if (!req.query.to) {
+      return res.status(400).json({
+        success: false,
+      });
+    }
+    const sendEmail = require("./utils/sendEmail");
+    const message = {
+      to: req.query.to,
+      subject: "Test Email",
+      text: "This is a test email.",
+      html: "<p>This is a test email.</p>",
+    };
+    const result = await sendEmail(message);
+    logger.info("Email sent:", result);
+    return res.json({
+      success: true,
+      message: "Email sent",
+      result,
+    });
+  } catch (e) {
+    logger.error("Error sending email:", e);
+    return res.status(500).json({
+      success: false,
+      message: "Error sending email",
+      error: String(e),
+    });
+  }
 });
 app.use("/api/admin", require("./routes/admin.router"));
 app.use("/api/students", require("./routes/student.router"));

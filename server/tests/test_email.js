@@ -11,8 +11,10 @@ async function testSendEmail() {
   try {
     const result = await sendEmail(message);
     console.log("Email sent:", result);
+    return result;
   } catch (e) {
     console.error("Error sending email:", e);
+    return String(e);
   }
 }
 
