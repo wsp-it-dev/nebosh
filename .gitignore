@@ -47,3 +47,5 @@ client/public/assets/certificate.pdf
 /server/public
 
 .todo
+*.zip
+*.rar
